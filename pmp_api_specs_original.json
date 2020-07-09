@@ -1,0 +1,420 @@
+{
+    "swagger": "2.0",
+    "host": "127.0.0.1:8000",
+    "basePath": "/api/project-management-platform/",
+    "info": {
+        "version": "1.0.0",
+        "title": "Project Management Platform",
+        "description": "A simple API to know the details of projects"
+    },
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "oauth": {
+            "tokenUrl": "http://auth.ibtspl.com/oauth2/",
+            "flow": "password",
+            "scopes": {
+                "read": "read users",
+                "write": "create users",
+                "update": "update users",
+                "delete": "delete users"
+            },
+            "type": "oauth2"
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "username"
+            ]
+        },
+
+        "Project": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "workflow_type": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "workflow_type_id": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "project_type": {
+                    "type": "string",
+                    "enum": [
+                        "Classic Software",
+                        "Financial",
+                        "CRM"
+                    ]
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "name",
+                "description",
+                "workflow_type",
+                "project_type",
+                "created_by",
+                "created_at"
+            ]
+        },
+        "Workflow": {
+            "properties": {
+                "workflow": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "workflow_id"
+            ]
+        }
+    },
+
+    "parameters": {
+
+        "UserLoginParameters": {
+            "name": "user login details",
+            "in": "body",
+            "description": "user login",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "username",
+                    "password"
+                ]
+            }
+        },
+
+        "CreateProjectParameters": {
+            "name": "Project Details",
+            "in": "body",
+            "description": "create project",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "workflow_type": {
+                        "type": "string"
+                    },
+                    "project_type": {
+                        "type": "string",
+                        "enum": [
+                            "Classic Software",
+                            "Financial",
+                            "CRM"
+                        ]
+                    }
+                },
+                "required": [
+                    "name",
+                    "description",
+                    "workflow_type",
+                    "project_type"
+                ]
+            }
+        },
+        "ProjectIdRequest": {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "description": "id of the project",
+            "type": "integer"
+        },
+        "OffsetParameters": {
+            "name": "offset",
+            "in": "query",
+            "description": "start page",
+            "type": "integer"
+        },
+        "LimitParameters": {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "description": "end page"
+        },
+        "SortParameters": {
+            "name": "sort",
+            "in": "query",
+            "type": "boolean",
+            "description": "sorting"
+        }
+    },
+
+    "responses": {
+        "UserLoginResponse": {
+            "description": "user logged in successfully",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "access_token": {
+                        "type": "string"
+                    },
+                    "refresh_token": {
+                        "type": "string"
+                    },
+                    "is_admin": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "access_token"
+                ]
+            }
+        },
+        "ListOfProjectsResponse": {
+            "description": "projects list",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/Project"
+                }
+            }
+        },
+        "ListOfWorkflowsResponse": {
+            "description": "workflows list",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/Workflow"
+                }
+            }
+        },
+        "CreatedProjectResponse": {
+            "description": "project created successfully",
+            "schema": {
+                "$ref": "#/definitions/Project"
+            }
+        }
+    },
+
+    "paths": {
+        "/login/v1/": {
+            "get": {
+                "operationId": "user_login",
+                "summary": "user login",
+                "description": "login by user",
+                "security": [{
+                    "oauth": [
+                        "read"
+                    ]
+                }],
+                "parameters": [{
+                    "$ref": "#/parameters/UserLoginParameters"
+                }],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/UserLoginResponse"
+                    },
+                    "400": {
+                        "description": "user not registered"
+                    },
+                    "401": {
+                        "description": "invalid credentials"
+                    }
+                }
+            }
+        },
+        "/project/v1/": {
+            "post": {
+                "operationId": "create_project",
+                "summary": "project created",
+                "description": "project is created by admin",
+                "security": [{
+                    "oauth": [
+                        "write"
+                    ]
+                }],
+                "parameters": [{
+                    "$ref": "#/parameters/CreateProjectParameters"
+                }],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/CreatedProjectResponse"
+                    }
+                }
+            }
+        },
+
+        "/projects/{offset}/{limit}/v1/": {
+            "get": {
+                "operationId": "list_of_projects",
+                "summary": "projects list",
+                "description": "projects list",
+                "security": [{
+                    "oauth": [
+                        "read"
+                    ]
+                }],
+                "parameters": [{
+                        "$ref": "#/parameters/OffsetParameters"
+                    },
+                    {
+                        "$ref": "#/parameters/LimitParameters"
+                    },
+                    {
+                        "$ref": "#/parameters/SortParameters"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/ListOfProjectsResponse"
+                    }
+                }
+            }
+        },
+        "/workflow/{project_id}/state/v1/": {
+            "post": {
+                "operationId": "workflow_add_state",
+                "summary": "state added to workflow",
+                "description": "workflow state added",
+                "security": [{
+                    "oauth": [
+                        "write"
+                    ]
+                }],
+                "parameters": [{
+                        "$ref": "#/parameters/ProjectIdRequest"
+                    },
+                    {
+                        "name": "Workflow Add State",
+                        "in": "body",
+                        "description": "add state to the workflow",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "state": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "state"
+                            ]
+                        }
+                    }
+                ],
+
+                "responses": {
+                    "200": {
+                        "description": "state added  successfully"
+                    },
+                    "400": {
+                        "description": "Invalid data"
+                    }
+                }
+            }
+        },
+        "/workflow/{project_id}/transition/v1/": {
+            "post": {
+                "operationId": "workflow_add_transition",
+                "summary": "transition added to workflow",
+                "description": "workflow transition added",
+                "security": [{
+                    "oauth": [
+                        "write"
+                    ]
+                }],
+                "parameters": [{
+                        "$ref": "#/parameters/ProjectIdRequest"
+                    },
+                    {
+                        "name": "Workflow Add Transistion",
+                        "in": "body",
+                        "description": "add transition to the workflow",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "from_state": {
+                                    "type": "string"
+                                },
+                                "to_state": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "from_state",
+                                "to_state",
+                                "name",
+                                "description"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "transition added  successfully"
+                    },
+                    "400": {
+                        "description": "Invalid data"
+                    }
+                }
+            }
+        },
+        "/workflows/v1/": {
+            "get": {
+                "operationId": "list_of_workflow",
+                "summary": "workflow list",
+                "description": "list of workflow",
+                "security": [{
+                    "oauth": [
+                        "read"
+                    ]
+                }],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/ListOfWorkflowsResponse"
+                    }
+                }
+            }
+        }
+    }
+}

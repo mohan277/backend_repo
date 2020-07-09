@@ -1,0 +1,32 @@
+Tests ran at 25 Apr 06 39 PM
+
+21 tests passed out of 24 tests.
+
+tests_car.py::test_car_object_creation_with_all_parameters_returns_car_object: passed
+tests_car.py::test_car_object_creation_with_invalid_max_speed_returns_value_error[-250-10-3]: passed
+tests_car.py::test_car_object_creation_with_invalid_max_speed_returns_value_error[0-10-3]: passed
+tests_car.py::test_car_object_creation_with_invalid_acceleration_returns_value_error[250--10-3]: passed
+tests_car.py::test_car_object_creation_with_invalid_acceleration_returns_value_error[250-0-3]: passed
+tests_car.py::test_car_object_creation_with_invalid_tyre_friction_returns_value_error[250-10--3]: passed
+tests_car.py::test_car_object_creation_with_invalid_tyre_friction_returns_value_error[250-10-0]: passed
+tests_car.py::test_accelerate_car_should_increase_by_the_value_of_acceleration: passed
+tests_car.py::test_accelerate_car_more_than_max_speed: passed
+tests_car.py::test_accelerate_when_car_engine_is_not_started: failed
+tests_car.py::test_accelerate_when_car_engine_is_started: passed
+tests_car.py::test_apply_break_when_car_current_speed_is_more_than_tyre_friction: passed
+tests_car.py::test_apply_break_when_car_current_speed_is_less_than_tyre_friction: passed
+tests_car.py::test_apply_break_when_car_current_speed_is_equal_to_tyre_friction: passed
+tests_car.py::test_sound_horn_when_car_engine_is_started_returns_beep_beep: failed
+tests_car.py::test_sound_horn_when_car_engine_not_started_returns_alert: failed
+tests_car.py::test_stop_engine_when_engine_is_started_returns_engine_state: passed
+tests_car.py::test_stop_engine_when_engine_is_not_started_returns_engine_state: passed
+tests_car.py::test_encapsulation_of_protected_attribute_color_return_error: passed
+tests_car.py::test_encapsulation_of_protected_attribute_max_speed_return_error: passed
+tests_car.py::test_encapsulation_of_protected_attribute_acceleration_return_error: passed
+tests_car.py::test_encapsulation_of_protected_attribute_tyre_friction_return_error: passed
+tests_car.py::test_encapsulation_of_protected_attribute_is_engine_started_return_error: passed
+tests_car.py::test_encapsulation_of_protected_attribute_current_speed_return_error: passed
+
+
+Errors: 0 errors
+

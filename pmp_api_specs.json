@@ -1,0 +1,528 @@
+{
+    "swagger": "2.0",
+    "host": "localhost:8080",
+    "basePath": "/api/project_management_portal/",
+    "info": {
+        "version": "1.0.0",
+        "title": "Project Management Platform",
+        "description": "A simple API to know the details of projects"
+    },
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "oauth": {
+            "tokenUrl": "http://auth.ibtspl.com/oauth2/",
+            "flow": "password",
+            "scopes": {
+                "read": "read users",
+                "write": "create users",
+                "update": "update users",
+                "delete": "delete users"
+            },
+            "type": "oauth2"
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "username"
+            ]
+        },
+
+        "Project": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "workflow_type": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "workflow_type_id": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "project_type": {
+                    "type": "string",
+                    "enum": [
+                        "Classic Software",
+                        "Financial",
+                        "CRM"
+                    ]
+                },
+                "user": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "user_id": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "name",
+                "description",
+                "workflow_type",
+                "project_type",
+                "user",
+                "created_at"
+            ]
+        },
+        "Task": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "project": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "project_id": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "issue_type": {
+                    "type": "string",
+                    "enum": [
+                        "Task",
+                        "Bug",
+                        "Developer story",
+                        "User story",
+                        "Enhancement"
+                    ]
+                },
+            },
+            "required": [
+                "title",
+                "description",
+                "project",
+                "issue_type"
+            ]
+        },
+        "Transition": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "from_state": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "from_state_id": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "to_state": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "to_state_id": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "description",
+                "from_state",
+                "to_state"
+            ]
+        }
+    },
+
+    "parameters": {
+
+        "UserLoginParameters": {
+            "name": "user_login_details",
+            "in": "body",
+            "description": "user login",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "username",
+                    "password"
+                ]
+            }
+        },
+
+        "CreateProjectParameters": {
+            "name": "Project_Details",
+            "in": "body",
+            "description": "create project",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "workflow_type": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "project_type": {
+                        "type": "string",
+                        "enum": [
+                            "Classic Software",
+                            "Financial",
+                            "CRM"
+                        ]
+                    }
+                },
+                "required": [
+                    "name",
+                    "description",
+                    "workflow_type",
+                    "project_type"
+                ]
+            }
+        },
+        "CreateTaskParameters": {
+            "name": "Task_Details",
+            "in": "body",
+            "description": "create task",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "project_id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "issue_type": {
+                        "type": "string",
+                        "enum": [
+                            "Task",
+                            "Bug",
+                            "Developer story",
+                            "User story",
+                            "Enhancement"
+                        ]
+                    }
+                },
+                "required": [
+                    "name",
+                    "description",
+                    "project",
+                    "issue_type"
+                ]
+            }
+        },
+        "CreateTransitionParameters": {
+            "name": "Transition_Details",
+            "in": "body",
+            "description": "create transition",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "from_state": {
+                        "type": "string"
+                    },
+                    "to_state": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "description",
+                    "from_state",
+                    "to_state"
+                ]
+            }
+        },
+        "ProjectIdRequest": {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "description": "id of the project",
+            "type": "integer"
+        },
+        "OffsetParameters": {
+            "name": "offset",
+            "in": "query",
+            "description": "start page",
+            "type": "integer"
+        },
+        "LimitParameters": {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "description": "end page"
+        },
+        "SortParameters": {
+            "name": "sort",
+            "in": "query",
+            "type": "boolean",
+            "description": "sorting"
+        }
+    },
+
+    "responses": {
+        "UserLoginResponse": {
+            "description": "user logged in successfully",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "access_token": {
+                        "type": "string"
+                    },
+                    "refresh_token": {
+                        "type": "string"
+                    },
+                    "is_admin": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "access_token"
+                ]
+            }
+        },
+        "ListOfProjectsResponse": {
+            "description": "projects list",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/Project"
+                }
+            }
+        },
+        "CreatedProjectResponse": {
+            "description": "project created successfully",
+            "schema": {
+                "$ref": "#/definitions/Project"
+            }
+        },
+        "CreatedTaskResponse": {
+            "description": "task created successfully",
+            "schema": {
+                "$ref": "#/definitions/Task"
+            }
+        },
+        "ListOfTasksResponse": {
+            "description": "tasks list",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/Task"
+                }
+            }
+        },
+        "CreatedTransitionResponse": {
+            "description": "transition created successfully",
+            "schema": {
+                "$ref": "#/definitions/Transition"
+            }
+        }
+    },
+
+    "paths": {
+        "/login/v1/": {
+            "get": {
+                "operationId": "user_login",
+                "summary": "user login",
+                "description": "login by user",
+                "security": [{
+                    "oauth": [
+                        "read"
+                    ]
+                }],
+                "parameters": [{
+                    "$ref": "#/parameters/UserLoginParameters"
+                }],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/UserLoginResponse"
+                    },
+                    "400": {
+                        "description": "user not registered"
+                    },
+                    "401": {
+                        "description": "invalid credentials"
+                    }
+                }
+            }
+        },
+        "/project/v1/": {
+            "post": {
+                "operationId": "create_project",
+                "summary": "project created",
+                "description": "project is created by admin",
+                "security": [{
+                    "oauth": [
+                        "write"
+                    ]
+                }],
+                "parameters": [{
+                    "$ref": "#/parameters/CreateProjectParameters"
+                }],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/CreatedProjectResponse"
+                    }
+                }
+            }
+        },
+
+        "/projects/v1/": {
+            "get": {
+                "operationId": "list_of_projects",
+                "summary": "projects list",
+                "description": "projects list",
+                "security": [{
+                    "oauth": [
+                        "read"
+                    ]
+                }],
+                "parameters": [{
+                        "$ref": "#/parameters/OffsetParameters"
+                    },
+                    {
+                        "$ref": "#/parameters/LimitParameters"
+                    },
+                    {
+                        "$ref": "#/parameters/SortParameters"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/ListOfProjectsResponse"
+                    }
+                }
+            }
+        },
+        "/task/v1/": {
+            "post": {
+                "operationId": "create_task",
+                "summary": "task created",
+                "description": "task is created by user",
+                "security": [{
+                    "oauth": [
+                        "write"
+                    ]
+                }],
+                "parameters": [{
+                    "$ref": "#/parameters/CreateTaskParameters"
+                }],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/CreatedTaskResponse"
+                    }
+                }
+            }
+        },
+        "/tasks/v1/": {
+            "get": {
+                "operationId": "list_of_tasks",
+                "summary": "tasks list",
+                "description": "tasks list",
+                "security": [{
+                    "oauth": [
+                        "read"
+                    ]
+                }],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/ListOfTasksResponse"
+                    }
+                }
+            }
+        },
+        "/transition/v1/": {
+            "post": {
+                "operationId": "create_transition",
+                "summary": "transition created",
+                "description": "transition is created between two states",
+                "security": [{
+                    "oauth": [
+                        "write"
+                    ]
+                }],
+                "parameters": [{
+                    "$ref": "#/parameters/CreateTransitionParameters"
+                }],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/CreatedTransitionResponse"
+                    }
+                }
+            }
+        }
+    }
+}

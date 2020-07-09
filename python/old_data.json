@@ -1,0 +1,42 @@
+{
+    "people": [{
+            "name": "mohan",
+            "age": 21,
+            "gender": "male",
+            "qualification": "B.tech",
+            "hobbies": [
+                "crickert",
+                "volley ball",
+                "foot ball"
+            ],
+            "email_Id": "mohan@gmail.com",
+            "marital_status": false
+        },
+        {
+            "name": "krishna",
+            "age": 22,
+            "gender": "Male",
+            "qualification": "intermediate",
+            "hobbies": [
+                "crickert",
+                "volley ball",
+                "foot ball"
+            ],
+            "email_Id": "krishna@gmail.com",
+            "marital_status": true
+        },
+        {
+            "name": "senam",
+            "age": 23,
+            "gender": "Male",
+            "qualification": "10th",
+            "hobbies": [
+                "crickert",
+                "volley ball",
+                "foot ball"
+            ],
+            "email_Id": "senam@gmail.com",
+            "marital_status": null
+        }
+    ]
+}

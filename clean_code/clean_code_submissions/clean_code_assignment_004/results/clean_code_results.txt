@@ -1,0 +1,89 @@
+************* Module fb_post.utils.check_for_exceptions
+fb_post/utils/check_for_exceptions.py:58: [C0103(invalid-name), is_valid_reaction_type] Variable name "REACTIONS_LIST" doesn't conform to snake_case naming style
+************* Module fb_post.utils.get_posts_with_more_positive_reactions
+fb_post/utils/get_posts_with_more_positive_reactions.py:16: [C0301(line-too-long), ] Line too long (80/79)
+fb_post/utils/get_posts_with_more_positive_reactions.py:17: [C0301(line-too-long), ] Line too long (80/79)
+fb_post/utils/get_posts_with_more_positive_reactions.py:28: [C0304(missing-final-newline), ] Final newline missing
+fb_post/utils/get_posts_with_more_positive_reactions.py:16: [C0103(invalid-name), get_posts_with_more_positive_reactions] Variable name "POSITIVE_REACTIONS_LIST" doesn't conform to snake_case naming style
+fb_post/utils/get_posts_with_more_positive_reactions.py:17: [C0103(invalid-name), get_posts_with_more_positive_reactions] Variable name "NEGATIVE_REACTIONS_LIST" doesn't conform to snake_case naming style
+fb_post/utils/get_posts_with_more_positive_reactions.py:7: [W0611(unused-import), ] Unused is_valid_user_id imported from check_for_exceptions
+fb_post/utils/get_posts_with_more_positive_reactions.py:7: [W0611(unused-import), ] Unused is_valid_post_id imported from check_for_exceptions
+fb_post/utils/get_posts_with_more_positive_reactions.py:7: [W0611(unused-import), ] Unused is_valid_comment_content imported from check_for_exceptions
+fb_post/utils/get_posts_with_more_positive_reactions.py:5: [C0411(wrong-import-order), ] third party import "from django.db.models import Count, Q, F" should be placed before "from fb_post.models import Post"
+************* Module fb_post.utils.get_user_posts
+fb_post/utils/get_user_posts.py:10: [C0301(line-too-long), ] Line too long (200/79)
+************* Module fb_post.utils.get_replies_for_comment
+fb_post/utils/get_replies_for_comment.py:8: [C0301(line-too-long), ] Line too long (102/79)
+************* Module fb_post.utils.get_posts_reacted_by_user
+fb_post/utils/get_posts_reacted_by_user.py:13: [C0326(bad-whitespace), ] No space allowed around keyword argument assignment
+        reaction__reacted_by_id = user_id).values_list('id',flat=True))
+                                ^
+fb_post/utils/get_posts_reacted_by_user.py:13: [C0326(bad-whitespace), ] Exactly one space required after comma
+        reaction__reacted_by_id = user_id).values_list('id',flat=True))
+                                                           ^
+************* Module fb_post.utils.get_total_reaction_count
+fb_post/utils/get_total_reaction_count.py:6: [C0326(bad-whitespace), ] No space allowed around keyword argument assignment
+    return Reaction.objects.aggregate(count = Count('reaction'))
+                                            ^
+fb_post/utils/get_total_reaction_count.py:2: [C0411(wrong-import-order), ] third party import "from django.db.models import Count" should be placed before "from fb_post.models import Reaction"
+************* Module fb_post.utils.get_reaction_metrics
+fb_post/utils/get_reaction_metrics.py:3: [C0411(wrong-import-order), ] third party import "from django.db.models import Count" should be placed before "from fb_post.models import Reaction"
+************* Module fb_post.utils.reply_to_comment
+fb_post/utils/reply_to_comment.py:20: [R1705(no-else-return), reply_to_comment] Unnecessary "else" after "return"
+************* Module fb_post.utils.react_to_post
+fb_post/utils/react_to_post.py:32: [C0330(bad-continuation), ] Wrong hanging indentation before block (add 4 spaces).
+    reaction_obj, reaction_type):
+    ^   |
+fb_post/utils/react_to_post.py:38: [C0304(missing-final-newline), ] Final newline missing
+fb_post/utils/react_to_post.py:26: [W0702(bare-except), react_to_post] No exception type(s) specified
+fb_post/utils/react_to_post.py:3: [W0611(unused-import), ] Unused ReactionChoices imported from fb_post.constants
+************* Module fb_post.utils.get_reactions_to_post
+fb_post/utils/get_reactions_to_post.py:14: [C0301(line-too-long), ] Line too long (84/79)
+fb_post/utils/get_reactions_to_post.py:14: [C0326(bad-whitespace), ] Exactly one space required after comma
+            'reacted_by_id','reacted_by__name','reacted_by__profile_pic','reaction')
+                           ^
+fb_post/utils/get_reactions_to_post.py:14: [C0326(bad-whitespace), ] Exactly one space required after comma
+            'reacted_by_id','reacted_by__name','reacted_by__profile_pic','reaction')
+                                              ^
+fb_post/utils/get_reactions_to_post.py:14: [C0326(bad-whitespace), ] Exactly one space required after comma
+            'reacted_by_id','reacted_by__name','reacted_by__profile_pic','reaction')
+                                                                        ^
+fb_post/utils/get_reactions_to_post.py:18: [W2207(max-for-block-size), get_reactions_to_post] Too many statements in for block (7/4)
+************* Module fb_post.utils.get_post
+fb_post/utils/get_post.py:38: [C0301(line-too-long), ] Line too long (113/79)
+fb_post/utils/get_post.py:51: [C0330(bad-continuation), ] Wrong hanging indentation (add 4 spaces).
+            'commented_at': str(comment_obj.commented_at)[:-6],
+            ^   |
+fb_post/utils/get_post.py:52: [C0330(bad-continuation), ] Wrong hanging indentation (add 4 spaces).
+            'comment_content':  comment_obj.content,
+            ^   |
+fb_post/utils/get_post.py:53: [C0330(bad-continuation), ] Wrong hanging indentation (add 4 spaces).
+            'reactions': {
+            ^   |
+fb_post/utils/get_post.py:55: [C0301(line-too-long), ] Line too long (111/79)
+fb_post/utils/get_post.py:57: [C0330(bad-continuation), ] Wrong hanging indentation (add 4 spaces).
+            'replies_count': len(replies),
+            ^   |
+fb_post/utils/get_post.py:58: [C0330(bad-continuation), ] Wrong hanging indentation (add 4 spaces).
+            'replies': replies
+            ^   |
+fb_post/utils/get_post.py:73: [C0301(line-too-long), ] Line too long (104/79)
+fb_post/utils/get_post.py:22: [W2207(max-for-block-size), post_details] Too many statements in for block (38/4)
+fb_post/utils/get_post.py:25: [W2207(max-for-block-size), post_details] Too many statements in for block (16/4)
+fb_post/utils/get_post.py:22: [R1702(too-many-nested-blocks), post_details] Too many nested blocks (3/2)
+************* Module fb_post.utils.react_to_comment
+fb_post/utils/react_to_comment.py:32: [C0330(bad-continuation), ] Wrong hanging indentation before block (add 4 spaces).
+    reaction_obj, reaction_type):
+    ^   |
+fb_post/utils/react_to_comment.py:35: [W0311(bad-indentation), ] Bad indentation. Found 12 spaces, expected 8
+fb_post/utils/react_to_comment.py:38: [C0304(missing-final-newline), ] Final newline missing
+fb_post/utils/react_to_comment.py:26: [W0702(bare-except), react_to_comment] No exception type(s) specified
+fb_post/utils/react_to_comment.py:3: [W0611(unused-import), ] Unused ReactionChoices imported from fb_post.constants
+************* Module fb_post/constants
+fb_post/constants.py:1: [C0103(invalid-name), ] Module name "fb_post/constants" doesn't conform to snake_case naming style
+************* Module fb_post/exceptions
+fb_post/exceptions.py:1: [C0103(invalid-name), ] Module name "fb_post/exceptions" doesn't conform to snake_case naming style
+
+------------------------------------------------------------------
+Your code has been rated at 7.94/10 (previous run: 9.89/10, -1.95)
+

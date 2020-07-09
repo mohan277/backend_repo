@@ -1,0 +1,299 @@
+{
+    "swagger": "2.0",
+    "host": "127.0.0.1:8000",
+    "basePath": "/api/",
+    "info": {
+        "version": "1.0.0",
+        "title": "Simple API",
+        "description": "A simple API to learn how to write OpenAPI Specification"
+    },
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "oauth": {
+            "tokenUrl": "http://auth.ibtspl.com/oauth2/",
+            "flow": "password",
+            "scopes": {
+                "read": "read users",
+                "write": "create users",
+                "update": "update users",
+                "delete": "delete users",
+                "superuser": "super user permission"
+            },
+            "type": "oauth2"
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "age": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            },
+            "required": [
+                "firstName",
+                "lastName",
+                "username",
+                "age"
+            ]
+        },
+        "Group": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/User"
+            }
+        }
+    },
+
+    "parameters": {},
+    "responses": {
+        "CreateNewPersonResponse": {
+            "description": "Success Response",
+            "schema": {
+                "$ref": "#/definitions/User"
+            }
+        },
+        "GroupResponse": {
+            "description": "Success Response",
+            "schema": {
+                "$ref": "#/definitions/Group"
+            }
+        }
+    },
+
+    "paths": {
+        "/person/create/": {
+            "post": {
+                "operationId": "create_person",
+                "summary": "Create New Person",
+                "description": "Creates a new person and return the user object. This api is not idempotent.",
+                "security": [{
+                    "oauth": [
+                        "superuser"
+                    ]
+                }],
+                "parameters": [{
+                    "name": "person",
+                    "in": "body",
+                    "description": "The person to create.",
+                    "schema": {
+                        "$ref": "#/definitions/User"
+                    }
+                }],
+                "responses": {
+                    "201": {
+                        "$ref": "#/responses/CreateNewPersonResponse"
+                    }
+                }
+            }
+        },
+
+        "/person/": {
+            "get": {
+                "operationId": "get_person",
+                "description": "Creates a new person and return the user object. This api is not idempotent.",
+                "security": [{
+                    "oauth": [
+                        "superuser"
+                    ]
+                }],
+                "parameters": [{
+                        "name": "offset",
+                        "in": "query",
+                        "description": "offset parameeter",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit parameeter",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "$ref": "#/definitions/Group"
+                    }
+                }
+            }
+        },
+
+        "/person/{username}": {
+            "get": {
+                "operationId": "get_person_details",
+                "description": "Creates a new person and return the user object. This api is not idempotent.",
+                "security": [{
+                    "oauth": [
+                        "superuser"
+                    ]
+                }],
+                "parameters": [{
+                    "name": "username",
+                    "in": "path",
+                    "required": True,
+                    "description": "The person to create.",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/GroupResponse"
+                    }
+                }
+            },
+
+            "put": {
+                "description": "Creates a new person and return the user object. This api is not idempotent.",
+                "security": [{
+                    "oauth": [
+                        "superuser"
+                    ]
+                }],
+                "parameters": [{
+                        "name": "username",
+                        "in": "path",
+                        "required": True,
+                        "description": "The person to create.",
+                        "type": "string"
+                    },
+                    {
+                        "$ref": "#/definitions/User"
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Success Response"
+                    }
+                }
+            },
+
+
+            "delete": {
+                "description": "Creates a new person and return the user object. This api is not idempotent.",
+                "security": [{
+                    "oauth": [
+                        "superuser"
+                    ]
+                }],
+                "parameters": [{
+                    "name": "username",
+                    "in": "path",
+                    "required": True,
+                    "description": "The person to create.",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "ACCEPTED"
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+fb_post:
+
+    {
+        "swagger": "2.0",
+        "host": "127.0.0.1:8000",
+        "basePath": "/api/",
+        "info": {
+            "version": "1.0.0",
+            "title": "FB POST",
+            "description": "A simple API to learn how to write OpenAPI Specification"
+        },
+        "schemes": [
+            "https",
+            "http"
+        ],
+        "consumes": [
+            "application/json"
+        ],
+        "produces": [
+            "application/json"
+        ],
+        "securityDefinitions": {
+            "oauth": {
+                "tokenUrl": "http://auth.ibtspl.com/oauth2/",
+                "flow": "password",
+                "scopes": {
+                    "read": "read users",
+                    "write": "create users",
+                    "update": "update users",
+                    "delete": "delete users",
+                    "superuser": "super user permission"
+                },
+                "type": "oauth2"
+            }
+        },
+
+        "definitions": {
+
+            "post_content": {
+                "type": "string",
+                "properties": {
+                    "post_content": {
+                        "type": "string"
+                    }
+                }
+            },
+
+            "comment_content": {
+                "type": "string",
+                "properties": {
+                    "comment_content": {
+                        "type": "string"
+                    }
+                }
+            },
+
+            "reply_content": {
+                "type": "string",
+                "properties": {
+                    "reaction_type": {
+                        "type": "string"
+                    }
+                }
+            },
+
+            "reaction_type": {
+                "type": "string",
+                "properties": {
+                    "reaction_type": {
+                        "type": "string"
+                    }
+                }
+            },
+
+        },
+        "paths": {}
+    }
